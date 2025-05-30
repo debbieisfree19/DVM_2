@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, url_for, jsonify
 import sqlite3
 import bcrypt
+import os
 
 app = Flask(__name__)
 app.secret_key = '******'
@@ -219,7 +220,7 @@ def account():
 def language():
     return render_template('language.html')
 
-import os
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))  # Lấy port từ biến môi trường (Render sẽ set biến PORT)
