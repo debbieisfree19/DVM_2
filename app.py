@@ -64,14 +64,14 @@ def login():
         user = conn.execute('SELECT * FROM NguoiDung WHERE email = ?', (email,)).fetchone()
         conn.close()
 
-    if user:
-        stored_password = user['mat_khau']  
-        if isinstance(stored_password, str):
-            stored_password = stored_password.encode('utf-8')  
-
-        if bcrypt.checkpw(password, stored_password):
-            session['user_id'] = user['id']
-            return redirect(url_for('account'))
+        if user:
+            stored_password = user['mat_khau']  
+            if isinstance(stored_password, str):
+                stored_password = stored_password.encode('utf-8')  
+    
+            if bcrypt.checkpw(password, stored_password):
+                session['user_id'] = user['id']
+                return redirect(url_for('account'))
             
         return render_template('login.html', error='Email hoặc mật khẩu không đúng!')
         
