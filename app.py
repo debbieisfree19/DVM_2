@@ -58,16 +58,23 @@ def signup():
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
-        password = request.form['password']#.encode('utf-8')
+        password = request.form['password'].encode('utf-8')
 
         conn = get_db_connection()
         user = conn.execute('SELECT * FROM NguoiDung WHERE email = ?', (email,)).fetchone()
         conn.close()
 
-        if user and bcrypt.checkpw(password, user['mat_khau'].encode('utf-8')):
+    if user:
+        stored_password = user['mat_khau']  
+        if isinstance(stored_password, str):
+            stored_password = stored_password.encode('utf-8')  
+
+        if bcrypt.checkpw(password, stored_password):
             session['user_id'] = user['id']
             return redirect(url_for('account'))
+            
         return render_template('login.html', error='Email hoặc mật khẩu không đúng!')
+        
     return render_template('login.html')
 
 # Homepage route
