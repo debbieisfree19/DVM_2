@@ -58,7 +58,7 @@ def signup():
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
-        password = request.form['password'].encode('utf-8')
+        password = request.form['password']#.encode('utf-8')
 
         conn = get_db_connection()
         user = conn.execute('SELECT * FROM NguoiDung WHERE email = ?', (email,)).fetchone()
